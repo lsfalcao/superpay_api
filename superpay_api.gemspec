@@ -33,8 +33,8 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = Gem::Requirement.new(">= 1.9")
 
-  gem.add_dependency "activemodel",     "~> 3"
-  gem.add_runtime_dependency "savon",   "~> 2.11"
+  gem.add_dependency "activemodel",     ">= 3"
+  gem.add_runtime_dependency "savon",   ">= 2.11"
 
 end
 
