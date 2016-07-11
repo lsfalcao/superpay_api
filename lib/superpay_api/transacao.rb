@@ -2,36 +2,6 @@
 module SuperpayApi
   class Transacao
 
-    # Map all the attributes from Transacao.
-    #
-    MAPPING = {
-      :numero_transacao               => "numeroTransacao",
-      :codigo_estabelecimento         => "codigoEstabelecimento",
-      :codigo_forma_pagamento         => "codigoFormaPagamento",
-      :valor                          => "valor",
-      :valor_desconto                 => "valorDesconto",
-      :taxa_embarque                  => "taxaEmbarque",
-      :parcelas                       => "parcelas",
-      :nome_titular_cartao_credito    => "nomeTitularCartaoCredito",
-      :numero_cartao_credito          => "numeroCartaoCredito",
-      :codigo_seguranca               => "codigoSeguranca",
-      :data_validade_cartao           => "dataValidadeCartao",
-      :vencimento_boleto              => "vencimentoBoleto",
-      :url_campainha                  => "urlCampainha",
-      :url_redirecionamento_pago      => "urlRedirecionamentoPago",
-      :url_redirecionamento_nao_pago  => "urlRedirecionamentoNaoPago",
-      :ip                             => "ip",
-      :idioma                         => "idioma",
-      :origem_transacao               => "origemTransacao",
-      :campo_livre1                   => "campoLivre1",
-      :campo_livre2                   => "campoLivre2",
-      :campo_livre3                   => "campoLivre3",
-      :campo_livre4                   => "campoLivre4",
-      :campo_livre5                   => "campoLivre5",
-      :dados_usuario_transacao        => "dadosUsuarioTransacao",
-      :itens_do_pedido                => "itensDoPedido",
-    }
-
     # Código que identifica a transação dentro do SuperPay
     # Numérico - Até 8 dígitos
     attr_accessor :numero_transacao
@@ -162,24 +132,75 @@ module SuperpayApi
       end
     end
 
-    # def consultar(parametros)
-    #   resposta = web_service.request(parametros)
-    #   helper.build_response_calculo_frete(resposta)
-    # end
+    # Nova instancia da classe Transacao
+    # @param [Hash] campos
+    def initialize(campos = {})
+      campos.each do |campo, valor|
+        if SuperpayApi::Transacao.public_instance_methods.include? "#{campo}=".to_sym
+          send "#{campo}=", valor
+        end
+      end
+    end
 
-    # def self.consultar(parametros)
-    #   self.new.consultar(parametros)
-    # end
+    # Função para consultar transações
+    def consulta_transacao numero_transacao
+      resposta = web_service.consulta_transacao_completa numero_transacao
+      resposta
+    end
 
-    # private
+    # Função para consultar transações
+    def self.consulta_transacao numero_transacao
+      self.new.consulta_transacao numero_transacao
+    end
 
-    # def web_service
-    #   @web_service ||= SuperpayApi::Service::WebService.new
-    # end
+    # Função para realizar o pagamento de transações
+    def enviar_pagamento
+       return false if self.invalid?
+      resposta = web_service.pagamento_transacao_completa self
+      resposta
+    end
 
-    # def helper
-    #   @helper ||= SuperpayApi::Service::Helper.new
-    # end
+    # Montar o Hash da transação
+    def to_request
+      transacao = {
+        numero_transacao:               self.numero_transacao,
+        "IP" =>                         self.ip,
+        codigo_forma_pagamento:         self.codigo_forma_pagamento,
+        valor:                          self.valor,
+        valor_desconto:                 self.valor_desconto,
+        taxa_embarque:                  self.taxa_embarque,
+        parcelas:                       self.parcelas,
+        nome_titular_cartao_credito:    self.nome_titular_cartao_credito,
+        numero_cartao_credito:          self.numero_cartao_credito,
+        codigo_seguranca:               self.codigo_seguranca,
+        data_validade_cartao:           self.data_validade_cartao,
+        vencimento_boleto:              self.vencimento_boleto,
+        url_redirecionamento_pago:      self.url_redirecionamento_pago,
+        url_redirecionamento_nao_pago:  self.url_redirecionamento_nao_pago,
+        campo_livre1:                   self.campo_livre1,
+        campo_livre2:                   self.campo_livre2,
+        campo_livre3:                   self.campo_livre3,
+        campo_livre4:                   self.campo_livre4,
+        campo_livre5:                   self.campo_livre5,
+      }
+
+      # Adicionar os parâmetros de configurações
+      transacao.merge! SuperpayApi.configuracoes_to_request
+
+      # Adicionar dados do usuário
+      transacao[:dados_usuario_transacao] = self.dados_usuario_transacao.to_request unless self.dados_usuario_transacao.blank?
+
+      # Adicionar itens do pedido
+      transacao[:itens_do_pedido] = self.itens_do_pedido.collect{ |i| i.to_request } unless self.itens_do_pedido.blank?
+
+      return transacao
+    end
+
+    private
+
+      def web_service
+        @web_service ||= SuperpayApi::WebService.new
+      end
 
   end
 end

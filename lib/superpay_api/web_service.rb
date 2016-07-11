@@ -6,39 +6,63 @@ module SuperpayApi
 
     attr_reader :savon_client
 
-    # def initialize
-    #   @savon_client = Savon.client(
-    #     wsdl: ::SuperpayApi::Configuracao::URL,
-    #     convert_request_keys_to: :lower_camelcase,
-    #   )
-    # end
+    def initialize
+      @savon_client = Savon.client(
+        wsdl: ::SuperpayApi.url,
+        env_namespace: :soapenv,
+        convert_request_keys_to: :lower_camelcase,
+        namespace_identifier: :pag,
+        namespaces: {
+          "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+          "xmlns:pag" => "http://pagamentos.webservices.superpay.ernet.com.br/",
+        }
+      )
+    end
 
-    # def request(parametros = {})
-    #   # Monta os parâmetros
-    #   params = helper.build_request_calculo_frete(parametros)
+    def consulta_transacao_completa(numero_transacao)
+      # Monta os parâmetros
+      params = helper.build_request_consulta_transacao_completa(numero_transacao)
 
-    #   # Faz a requisição para o wsdl
-    #   begin
-    #     retorno = @savon_client.call(:calcula_frete, message: params)
-    #     # Coverte a resposta
-    #     resposta = retorno.to_array.first unless retorno.blank?
-    #   rescue Savon::SOAPFault => error
-    #     return helper.build_response_calculo_frete({error: error.to_hash[:fault][:faultstring]})
-    #   end
+      # Faz a requisição para o wsdl
+      begin
+        retorno = @savon_client.call(:consulta_transacao_completa, message: params)
+      rescue Savon::SOAPFault => error
+        return helper.build_response_error(error)
+      end
 
-    #   # Verifica se a resposta veio correta ou se deu problema
-    #   if resposta.blank?
-    #     return {error: true}
-    #   else
-    #     return resposta
-    #   end
-    # end
+      # Verifica se a retorno veio correta ou se deu problema
+      if retorno.blank?
+        return {error: true}
+      else
+        return helper.build_response_retorno(retorno)
+      end
+    end
 
-    # private
+    def pagamento_transacao_completa(transacao)
+      # Monta os parâmetros
+      params = helper.build_request_pagamento_transacao_completa(transacao)
 
-    # def helper
-    #   @helper ||= SuperpayApi::Helper.new
-    # end
+      # Faz a requisição para o wsdl
+      begin
+        retorno = @savon_client.call(:pagamento_transacao_completa, message: params)
+      rescue Savon::SOAPFault => error
+        return helper.build_response_error(error)
+        # return helper.build_response_error({error: error.to_hash[:fault][:faultstring]})
+      end
+
+      # Verifica se a retorno veio correta ou se deu problema
+      if retorno.blank?
+        return {error: true}
+      else
+        return helper.build_response_retorno(retorno)
+      end
+    end
+
+    private
+
+      def helper
+        @helper ||= SuperpayApi::Helper.new
+      end
 
   end
 end

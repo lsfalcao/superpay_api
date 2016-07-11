@@ -2,42 +2,51 @@
 module SuperpayApi
   class Helper
 
-    # #
-    # # Montar o Hash com a requisão de calculo de frete
-    # def build_request_calculo_frete(parametros = {})
+    #
+    # Montar o Hash com a requisição de consulta transação completo
+    def build_request_consulta_transacao_completa numero_transacao
+      # Montar os parâmetros para consulta
+      params = {
+        consulta_transacao_w_s: {
+          codigo_estabelecimento: SuperpayApi.estabelecimento,
+          numero_transacao: numero_transacao,
+        }
+      }
+      # Adiciona as configurações de login
+      params.merge! SuperpayApi.login
+    end
 
-    #   # Valida os parâmetros informados
-    #   erros_params = ""
-    #   erros_params << "Parâmetro obrigatório: login\n" if parametros[:login].blank?
-    #   erros_params << "Parâmetro obrigatório: cep_origem\n" if parametros[:cep_origem].blank?
-    #   erros_params << "Parâmetro obrigatório: cnpj_remetente\n" if parametros[:cnpj_remetente].blank?
-    #   erros_params << "Parâmetro obrigatório: ie_remetente\n" if parametros[:ie_remetente].blank?
-    #   erros_params << "Parâmetro obrigatório: cep_destino\n" if parametros[:cep_destino].blank?
-    #   erros_params << "Parâmetro obrigatório: cpf_destinatario\n" if parametros[:cpf_destinatario].blank?
-    #   erros_params << "Parâmetro obrigatório: valor_total\n" if parametros[:valor_total].blank?
-    #   erros_params << "Parâmetro obrigatório: peso\n" if parametros[:peso].blank?
-    #   raise erros_params unless erros_params.blank?
+    #
+    # Montar o Hash com a requisição de pagamento transação completo
+    def build_request_pagamento_transacao_completa transacao
+      # Montar os parâmetros para pagamento transacao completa
+      params = {}
+      params[:transacao] = transacao.to_request
+      # Adiciona as configurações de login
+      params.merge! SuperpayApi.login
+    end
 
-    #   params = {
-    #     in0: {
-    #       login: parametros[:login],
-    #       cepOrigem: parametros[:cep_origem],
-    #       nrIdentifClienteRem: parametros[:cnpj_remetente],
-    #       nrInscricaoEstadualRemetente: parametros[:ie_remetente],
+    #
+    # Montar o Hash com a resposta quando ocorre erro
+    # ResultadoPagamentosWS
+    # ResultadoConsultaTransacaoWS
+    def build_response_retorno(resposta = {})
+      response = resposta.to_array.first
+      if !response[:consulta_transacao_completa_response].blank?
+        return SuperpayApi::Retorno.new(response[:consulta_transacao_completa_response][:return])
+      elsif !response[:pagamento_transacao_completa_response].blank?
+        return SuperpayApi::Retorno.new(response[:pagamento_transacao_completa_response][:return])
+      else
+        return resposta
+      end
+    end
 
-    #       cepDestino: parametros[:cep_destino],
-    #       nrIdentifClienteDest: parametros[:cpf_destinatario],
+    #
+    # Montar o Hash com a resposta quando ocorre erro
+    def build_response_error(resposta = {})
+      return resposta
+    end
 
-    #       vlMercadoria: parametros[:valor_total],
-    #       psReal: parametros[:peso],
-    #     }
-    #   }
-
-    #   # Adiciona as configurações padrões
-    #   params[:in0].merge! SuperpayApi::Service.configuracoes_calculo_frete
-
-    #   return params
-    # end
 
     # #
     # # Montar o Hash com a resposta de calculo de frete

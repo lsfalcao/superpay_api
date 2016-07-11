@@ -36,4 +36,5 @@ bower.json
 
 # Ignore teste.rb and GEM
 teste.rb
+params.rb
 *.gem

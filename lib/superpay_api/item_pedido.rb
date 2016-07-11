@@ -2,15 +2,6 @@
 module SuperpayApi
   class ItemPedido
 
-    MAPPING = {
-      :codigo_produto           => "codigoProduto",
-      :codigo_categoria         => "codigoCategoria",
-      :nome_produto             => "nomeProduto",
-      :quantidade_produto       => "quantidadeProduto",
-      :valor_unitario_produto   => "valorUnitarioProduto",
-      :nome_categoria           => "nomeCategoria",
-    }
-
     # Importante ressaltar que todos os campos deste objeto são obrigatórios em caso de utilização de análise de fraude/risco.
 
     # Código único que identifica cada produto.
@@ -47,6 +38,29 @@ module SuperpayApi
     validates :nome_produto, :nome_categoria, length: { maximum: 100 }
     validates :quantidade_produto, length: { maximum: 8 }
     validates :valor_unitario_produto, length: { maximum: 10 }
+
+    # Nova instancia da classe ItemPedido
+    # @param [Hash] campos
+    def initialize(campos = {})
+      campos.each do |campo, valor|
+        if SuperpayApi::ItemPedido.public_instance_methods.include? "#{campo}=".to_sym
+          send "#{campo}=", valor
+        end
+      end
+    end
+
+    # Montar o Hash de dados do ItemPedido
+    def to_request
+      item_pedido = {
+        codigo_produto:           self.codigo_produto,
+        codigo_categoria:         self.codigo_categoria,
+        nome_produto:             self.nome_produto,
+        quantidade_produto:       self.quantidade_produto,
+        valor_unitario_produto:   self.valor_unitario_produto,
+        nome_categoria:           self.nome_categoria,
+      }
+      return item_pedido
+    end
 
   end
 end

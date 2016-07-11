@@ -7,20 +7,6 @@ module SuperpayApi
       :feminino                       => "Feminino",
       :pessoa_fisica                  => "Pessoa Física",
       :pessoa_juridica                => "Pessoa Jurídica",
-      :codigo_cliente                 => "codigoCliente",
-      :tipo_cliente                   => "tipoCliente",
-      :nome_comprador                 => "nomeComprador",
-      :email_comprador                => "emailComprador",
-      :documento_comprador            => "documentoComprador",
-      :documento_2_comprador          => "documento2Comprador",
-      :sexo_comprador                 => "sexoComprador",
-      :data_nascimento_comprador      => "dataNascimentoComprador",
-      :endereco_comprador             => "enderecoComprador",
-      :telefone_comprador             => "telefoneComprador",
-      :telefone_adicional_comprador   => "telefoneAdicionalComprador",
-      :endereco_entrega               => "enderecoEntrega",
-      :telefone_entrega               => "telefoneEntrega",
-      :telefone_adicional_entrega     => "telefoneAdicionalEntrega",
     }
 
     # Opções de Sexo
@@ -47,27 +33,27 @@ module SuperpayApi
 
     # Nome do comprador
     # Alfa Numérico - Até 100 caracteres
-    attr_accessor :nome_comprador
+    attr_accessor :nome
 
     # E-mail do comprador
     # Alfa Numérico - Até 100 caracteres
-    attr_accessor :email_comprador
+    attr_accessor :email
 
     # Documento principal do comprador
     # Alfa Numérico - Até 30 caracteres
-    attr_accessor :documento_comprador
+    attr_accessor :documento
 
     # Documento complementar do comprador
     # Alfa Numérico - Até 30 caracteres
-    attr_accessor :documento_2_comprador
+    attr_accessor :documento_2
 
     # M – Masculino / F – Feminino
     # Alfa Numérico - 1 caractere
-    attr_accessor :sexo_comprador
+    attr_accessor :sexo
 
     # Data de nascimento do comprador. Formato dd/mm/yyyy
     # Alfa Numérico - Até 10 caracteres
-    attr_accessor :data_nascimento_comprador
+    attr_accessor :data_nascimento
 
     # Endereços
     # SuperpayApi::Endereco
@@ -91,12 +77,12 @@ module SuperpayApi
     end
 
     # Validações
-    validates :sexo_comprador, inclusion: { in: SuperpayApi::DadosUsuario.sexos_validos }, allow_nil: true
+    validates :sexo, inclusion: { in: SuperpayApi::DadosUsuario.sexos_validos }, allow_nil: true
     validates :tipo_cliente, inclusion: { in: SuperpayApi::DadosUsuario.tipos_de_cliente_validos }, allow_nil: true
     validates :codigo_cliente, length: { maximum: 20 }
-    validates :nome_comprador, :email_comprador, length: { maximum: 100 }
-    validates :documento_comprador, :documento_2_comprador, length: { maximum: 30 }
-    validates :data_nascimento_comprador, length: { maximum: 10 }
+    validates :nome, :email, length: { maximum: 100 }
+    validates :documento, :documento_2, length: { maximum: 30 }
+    validates :data_nascimento, length: { maximum: 10 }
 
     validates_each [:endereco_comprador, :endereco_entrega], allow_nil: true do |record, attr, value|
       if value.is_a? SuperpayApi::Endereco
@@ -116,6 +102,51 @@ module SuperpayApi
       else
         record.errors.add(attr, 'deve ser um objeto SuperpayApi::Telefone.')
       end
+    end
+
+    # Nova instancia da classe DadosUsuario
+    # @param [Hash] campos
+    def initialize(campos = {})
+      campos.each do |campo, valor|
+        if SuperpayApi::DadosUsuario.public_instance_methods.include? "#{campo}=".to_sym
+          send "#{campo}=", valor
+        end
+      end
+    end
+
+    # Retornar o número do tipo de telefone
+    def sexo_to_request
+      SEXO[self.sexo]
+    end
+
+    # Retornar o número do tipo de telefone
+    def tipos_de_cliente_to_request
+      TIPOS_DE_CLIENTE[self.tipo_cliente]
+    end
+
+    # Montar o Hash de dados do usuario
+    def to_request
+      dados_usuario = {
+        codigo_cliente:             self.codigo_cliente,
+        tipo_cliente:               self.tipos_de_cliente_to_request,
+        nome_comprador:             self.nome,
+        documento_comprador:        self.documento,
+        documento_2_comprador:      self.documento_2,
+        sexo_comprador:             self.sexo_to_request,
+        data_nascimento_comprador:  self.data_nascimento,
+        email_comprador:            self.email,
+      }
+      # Adiciona os dados de endereços
+      dados_usuario.merge! self.endereco_comprador.to_request("endereco_comprador") unless endereco_comprador.blank?
+      dados_usuario.merge! self.endereco_entrega.to_request("endereco_entrega") unless endereco_entrega.blank?
+
+      # Adiciona os dados de telefones
+      dados_usuario.merge! self.telefone_comprador.to_request("comprador") unless telefone_comprador.blank?
+      dados_usuario.merge! self.telefone_adicional_comprador.to_request("adicional_comprador") unless telefone_adicional_comprador.blank?
+      dados_usuario.merge! self.telefone_entrega.to_request("entrega") unless telefone_entrega.blank?
+      dados_usuario.merge! self.telefone_adicional_entrega.to_request("adicional_entrega") unless telefone_adicional_entrega.blank?
+
+      return dados_usuario
     end
 
   end

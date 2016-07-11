@@ -3,6 +3,9 @@ module SuperpayApi
   module Configuracao
 
     MAPPING = {
+      :portugues    => "Português",
+      :ingles       => "Inglês",
+      :espanhol     => "Espanhol",
       :ecommerce    => "eCommerce",
       :mobile       => "Mobile",
       :ura          => "URA",
@@ -19,6 +22,13 @@ module SuperpayApi
       :producao_estorno     => "https://superpay2.superpay.com.br/checkout/servicosEstornoWS.Services?wsdl",
     }
 
+    # Opções de idiomas
+    IDIOMAS = {
+      :portugues  => 1,
+      :ingles     => 2,
+      :espanhol   => 3,
+    }
+
     # Opções de Origem da Transação
     # Consulte área de suporte sobre a habilitação das origens
     ORIGEM_DA_TRANSACAO ={
@@ -27,6 +37,11 @@ module SuperpayApi
       :ura        => 3,
       :pos        => 4,
     }
+
+    # Retornar array com os possíveis idiomas
+    def self.validos
+      IDIOMAS.map{ |key, value| key }
+    end
 
     # Retornar array com os possíveis Origem da Transação
     def self.origem_da_transacao_validos
@@ -37,7 +52,7 @@ module SuperpayApi
     URL_CAMPAINHA      = 'http://localhost:3000'
     IDIOMA             = 1
     ORIGEM_TRANSACAO   = 1
-    AMBIENTE           = :producao
+    AMBIENTE           = :homologacao # :homologacao ou :producao
     USUARIO            = 'superpay'
     SENHA              = 'superpay'
     ESTABELECIMENTO    = 1010101010101010
@@ -124,20 +139,51 @@ module SuperpayApi
       @estabelecimento ||= ESTABELECIMENTO
     end
 
-    #
+    # Montar o Hash de Login
+    def login
+      login = {
+        usuario: usuario.to_s,
+        senha: senha.to_s,
+      }
+      return login
+    end
+
+    # Retornar o número do idioma
+    def idiomas_to_request
+      IDIOMAS[self.idioma].to_i
+    end
+
+    # Retornar o número da origem da transacao
+    def origem_da_transacao_to_request
+      ORIGEM_DA_TRANSACAO[self.origem_transacao].to_i
+    end
+
     # Montar o Hash de configurações
-    # def configuracoes_calculo_frete
-    #   configuracoes = {
-    #     cdDivisaoCliente: divisao_cliente,
-    #     tpSituacaoTributariaDestinatario: situacao_tributaria_destinatario,
-    #     tpSituacaoTributariaRemetente: situacao_tributaria_remetente,
-    #     tpPessoaRemetente: tipo_pessoa_remetente,
-    #     tpPessoaDestinatario: tipo_pessoa_destinatario,
-    #     tpServico: tipo_servico,
-    #     tpFrete: tipo_frete,
-    #   }
-    #   return configuracoes
-    # end
+    def configuracoes_to_request
+      configuracoes = {
+        codigo_estabelecimento:   self.estabelecimento.to_i,
+        url_campainha:            self.url_campainha.to_s,
+        idioma:                   self.idiomas_to_request,
+        origem_transacao:         self.origem_da_transacao_to_request,
+      }
+      return configuracoes
+    end
+
+    def url
+      if ambiente == :producao
+        SuperpayApi::Configuracao::URL[:producao]
+      else
+        SuperpayApi::Configuracao::URL[:homologacao]
+      end
+    end
+
+    def url_estorno
+      if ambiente == :producao
+        SuperpayApi::Configuracao::URL[:producao_estorno]
+      else
+        SuperpayApi::Configuracao::URL[:homologacao_estorno]
+      end
+    end
 
   end
 end

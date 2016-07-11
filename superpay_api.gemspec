@@ -20,14 +20,14 @@ Gem::Specification.new do |gem|
                                 "lib/superpay_api/helper.rb",
                                 "lib/superpay_api/utils.rb",
                                 "lib/superpay_api/web_service.rb",
-                                "lib/superpay_api/endereco.rb",
-                                "lib/superpay_api/idioma.rb",
-                                "lib/superpay_api/telefone.rb",
                                 "lib/superpay_api/forma_de_pagamento.rb",
+                                "lib/superpay_api/status.rb",
+                                "lib/superpay_api/endereco.rb",
+                                "lib/superpay_api/telefone.rb",
                                 "lib/superpay_api/dados_usuario.rb",
                                 "lib/superpay_api/item_pedido.rb",
                                 "lib/superpay_api/transacao.rb",
-                                "lib/superpay_api/pagamento/resultado.rb",
+                                "lib/superpay_api/retorno.rb",
                               ]
   gem.require_paths         = ["lib"]
 
