@@ -50,8 +50,8 @@ module SuperpayApi
 
     # Parâmetros iniciais
     URL_CAMPAINHA      = 'http://localhost:3000'
-    IDIOMA             = 1
-    ORIGEM_TRANSACAO   = 1
+    IDIOMA             = :portugues
+    ORIGEM_TRANSACAO   = :ecommerce
     AMBIENTE           = :homologacao # :homologacao ou :producao
     USUARIO            = 'superpay'
     SENHA              = 'superpay'
