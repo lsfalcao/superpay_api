@@ -6,15 +6,15 @@ Gem para utilização do SuperPay API disponibilizado pela empresa [SuperPay](ht
 
 A biblioteca SuperPayAPI em Ruby é um conjunto de classes de domínio que facilitam, para o desenvolvedor Ruby, a utilização das funcionalidades que o SuperPay oferece na forma de [APIs](http://wiki.superpay.com.br/wikiSuperPay/index.php/P%C3%A1gina_principal). Com a biblioteca instalada e configurada, você pode facilmente integrar funcionalidades como:
 
- - [Criar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Criar_transa%C3%A7%C3%A3o_SOAP){:target="_blank"}
- - [Consultar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Consultar_transa%C3%A7%C3%A3o_SOAP){:target="_blank"}
- - [Capturar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Capturar_transa%C3%A7%C3%A3o_SOAP){:target="_blank"} \(Em desenvolvimento\)
- - [Cancelar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP){:target="_blank"} \(Em desenvolvimento\)
- - [Estorno de transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Estorno_de_transa%C3%A7%C3%A3o_SOAP){:target="_blank"} \(Em desenvolvimento\)
- - [Campainha](http://wiki.superpay.com.br/wikiSuperPay/index.php/Campainha){:target="_blank"} \(Em desenvolvimento\)
- - [Múltiplos Cartões](http://wiki.superpay.com.br/wikiSuperPay/index.php/M%C3%BAltiplos_Cart%C3%B5es){:target="_blank"} \(Em desenvolvimento\)
- - [One Click](http://wiki.superpay.com.br/wikiSuperPay/index.php/One_Click){:target="_blank"} \(Em desenvolvimento\)
- - [Cobrança Recorrente](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cobran%C3%A7a_Recorrente){:target="_blank"} \(Em desenvolvimento\)
+ - [Criar transação]
+ - [Consultar transação]
+ - [Capturar transação] \(Em desenvolvimento\)
+ - [Cancelar transação] \(Em desenvolvimento\)
+ - [Estorno de transação] \(Em desenvolvimento\)
+ - [Campainha] \(Em desenvolvimento\)
+ - [Múltiplos Cartões] \(Em desenvolvimento\)
+ - [One Click] \(Em desenvolvimento\)
+ - [Cobrança Recorrente] \(Em desenvolvimento\)
 
 ## Instalando
 
@@ -93,11 +93,11 @@ A classe `SuperpayApi::Transacao` é montada com outras classes \(`SuperpayApi::
 
 O retorno será um objeto da classe `SuperpayApi::Retorno` \(Verifique o objeto mais abaixo\).
 
-Importante realizar a validação do objeto antes de enviar o pagamento, para isso verifique a [documentação](http://www.rubydoc.info/github/qw3/superpay_api/){:target="_blank"}.
+Importante realizar a validação do objeto antes de enviar o pagamento, para isso verifique a [documentação](http://www.rubydoc.info/github/qw3/superpay_api/).
 
 ### Importante ressaltar que todos os campos deste objeto são obrigatórios em caso de utilização de análise de fraude/risco.
 
-### Montar [Transação](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Transacao){:target="_blank"}
+### Montar [Transação](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Transacao)
 
 ```ruby
 transacao = SuperpayApi::Transacao.new ({
@@ -128,7 +128,7 @@ transacao = SuperpayApi::Transacao.new ({
 retorno = transacao.enviar_pagamento if transacao.valid?
 ```
 
-### Montar [Itens do Pedido](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/ItemPedido){:target="_blank"}
+### Montar [Itens do Pedido](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/ItemPedido)
 
 ```ruby
 item_pedido_1 = SuperpayApi::ItemPedido.new ({
@@ -150,7 +150,7 @@ item_pedido_2 = SuperpayApi::ItemPedido.new ({
 })
 ```
 
-### Montar [Dados do Usuário](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/DadosUsuario){:target="_blank"}
+### Montar [Dados do Usuário](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/DadosUsuario)
 
 ```ruby
 dados_usuario = SuperpayApi::DadosUsuario.new ({
@@ -171,7 +171,7 @@ dados_usuario = SuperpayApi::DadosUsuario.new ({
 })
 ```
 
-### Montar [Endereço](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Endereco){:target="_blank"}
+### Montar [Endereço](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Endereco)
 
 ```ruby
 endereco = SuperpayApi::Endereco.new ({
@@ -185,7 +185,7 @@ endereco = SuperpayApi::Endereco.new ({
 })
 ```
 
-### Montar [Telefone](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Telefone){:target="_blank"}
+### Montar [Telefone](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Telefone)
 
 ```ruby
 telefone = SuperpayApi::Telefone.new ({
@@ -206,7 +206,7 @@ Para consultar uma transação basta chamar função `SuperpayApi::Transacao.con
 retorno = SuperpayApi::Transacao.consulta_transacao(numero_transacao)
 ```
 
-## Exemplo de [Retorno](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Retorno){:target="_blank"}
+## Exemplo de [Retorno](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Retorno)
 
 ```ruby
 retorno = {
@@ -227,13 +227,17 @@ retorno = {
 }
 ```
 
+## Documentação
+
+[RubyDoc.info]http://www.rubydoc.info/github/qw3/superpay_api
+
 ## Autor
-- [QW3 Software & Marketing](http://qw3.com.br){:target="_blank"}
-- [Leandro dos Santos Falcão](https://www.linkedin.com/in/lsfalcao){:target="_blank"}
+- [QW3 Software & Marketing](http://qw3.com.br)
+- [Leandro dos Santos Falcão](https://www.linkedin.com/in/lsfalcao)
 
 ## Copyright
 
-[QW3 Software & Marketing](http://qw3.com.br){:target="_blank"}
+[QW3 Software & Marketing](http://qw3.com.br)
 
 ![QW3 Logo](http://qw3.com.br/qw3_logo.png)
 
@@ -258,3 +262,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+  [Criar transação]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Criar_transa%C3%A7%C3%A3o_SOAP)
+  [Consultar transação]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Consultar_transa%C3%A7%C3%A3o_SOAP)
+  [Capturar transação]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Capturar_transa%C3%A7%C3%A3o_SOAP)
+  [Cancelar transação]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP)
+  [Estorno de transação]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Estorno_de_transa%C3%A7%C3%A3o_SOAP)
+  [Campainha]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Campainha)
+  [Múltiplos Cartões]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/M%C3%BAltiplos_Cart%C3%B5es)
+  [One Click]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/One_Click)
+  [Cobrança Recorrente]: (http://wiki.superpay.com.br/wikiSuperPay/index.php/Cobran%C3%A7a_Recorrente)
