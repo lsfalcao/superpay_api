@@ -6,11 +6,11 @@ Gem para utilização do SuperPay API disponibilizado pela empresa [SuperPay](ht
 
 A biblioteca SuperPayAPI em Ruby é um conjunto de classes de domínio que facilitam, para o desenvolvedor Ruby, a utilização das funcionalidades que o SuperPay oferece na forma de [APIs](http://wiki.superpay.com.br/wikiSuperPay/index.php/P%C3%A1gina_principal). Com a biblioteca instalada e configurada, você pode facilmente integrar funcionalidades como:
 
- - [Criar transação SOAP]
- - [Consultar transação SOAP]
- - [Capturar transação SOAP] \(Em desenvolvimento\)
- - [Cancelar transação SOAP] \(Em desenvolvimento\)
- - [Estorno de transação SOAP] \(Em desenvolvimento\)
+ - [Criar transação]
+ - [Consultar transação]
+ - [Capturar transação] \(Em desenvolvimento\)
+ - [Cancelar transação] \(Em desenvolvimento\)
+ - [Estorno de transação] \(Em desenvolvimento\)
  - [Campainha] \(Em desenvolvimento\)
  - [Múltiplos Cartões] \(Em desenvolvimento\)
  - [One Click] \(Em desenvolvimento\)
@@ -36,7 +36,7 @@ Adicione esta linha ao Gemfile do seu aplicativo:
 
 ## Configuração
 
-Para fazer a autenticação, você precisará configurar as credenciais do PagSeguro. Crie o arquivo `config/initializers/pagseguro.rb` com o conteúdo abaixo.
+Para fazer a autenticação, você precisará configurar as credenciais do SuperPay. Crie o arquivo `config/initializers/superpay_api.rb` com o conteúdo abaixo.
 
 ```ruby
 SuperpayApi.configure do |config|
@@ -201,6 +201,8 @@ retorno = SuperpayApi::Transacao.consulta_transacao(numero_transacao)
 ```
 
 ## Exemplo de Retorno
+
+```ruby
 retorno = {
   :numero_transacao             => '1',
   :codigo_estabelecimento       => '1010101010101010',
