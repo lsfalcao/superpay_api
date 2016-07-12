@@ -47,7 +47,7 @@ module SuperpayApi
       999  => "Múltiplos Cartões WebService",
     }
 
-    # Retornar array com os possíveis Origem da Transação
+    # Retornar array com as possíveis Formas de Pagamento
     def self.validos
       FORMAS_DE_PAGAMENTO.map{ |key, value| key }
     end

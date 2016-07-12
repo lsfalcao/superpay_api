@@ -2,8 +2,7 @@
 module SuperpayApi
   class Status
 
-    # Map all the attributes from Utils.
-    #
+    # Map Status para Texto.
     MAPPING = {
       :autorizado_e_confirmado                => "Autorizado e Confirmado",
       :autorizado                             => "Autorizado",
@@ -46,7 +45,8 @@ module SuperpayApi
       31  => :transacao_ja_efetuada,
       40  => :aguardando_cancelamento,
     }
-    # Retornar array com os possíveis Origem da Transação
+
+    # Retornar array com os possíveis Status
     def self.validos
       STATUS.map{ |key, value| key }
     end

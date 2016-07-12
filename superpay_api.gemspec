@@ -18,7 +18,6 @@ Gem::Specification.new do |gem|
                                 "lib/superpay_api/version.rb",
                                 "lib/superpay_api/configuracao.rb",
                                 "lib/superpay_api/helper.rb",
-                                "lib/superpay_api/utils.rb",
                                 "lib/superpay_api/web_service.rb",
                                 "lib/superpay_api/forma_de_pagamento.rb",
                                 "lib/superpay_api/status.rb",

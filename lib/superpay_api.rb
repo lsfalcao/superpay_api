@@ -5,7 +5,6 @@ require 'active_model'
 require "superpay_api/version"
 require "superpay_api/configuracao"
 require "superpay_api/helper"
-require "superpay_api/utils"
 require "superpay_api/web_service"
 require "superpay_api/forma_de_pagamento"
 require "superpay_api/status"

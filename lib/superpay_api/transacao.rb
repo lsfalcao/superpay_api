@@ -7,7 +7,7 @@ module SuperpayApi
     attr_accessor :numero_transacao
 
     # Código da forma de pagamento. Ver tabela “Forma de Pagamento”
-    # Numérico - Valores pré-definidos
+    # Simbolo - Valores pré-definidos - Verifique classe SuperpayApi::FormaDePagamento
     attr_accessor :codigo_forma_pagamento
 
     # Valor da transação
@@ -42,11 +42,11 @@ module SuperpayApi
     attr_accessor :codigo_seguranca
 
     # Data de validade do cartão.
-    # Alfa Numérico - Até 7 caracteres
+    # Alfa Numérico - Até 7 caracteres - Formato mm/yyyy
     attr_accessor :data_validade_cartao
 
-    # Formato mm/yyyy
-    # Alfa Numérico - Até 10 caracteres
+    # Data de validade do boleto.
+    # Alfa Numérico - Até 10 caracteres - Formato dd/mm/yyyy
     attr_accessor :vencimento_boleto
 
     # Para o modelo de pagamento redirect, O SuperPay redirecionará para essa URL em caso de transação *aprovada
@@ -57,8 +57,8 @@ module SuperpayApi
     # Alfa Numérico - Até 250 caracteres
     attr_accessor :url_redirecionamento_nao_pago
 
-    # Número do IP do usuário final/cliente. Formato xxx.xxx.xxx.xxx
-    # Alfa Numérico - Até 15 caracteres
+    # Número do IP do usuário final/cliente.
+    # Alfa Numérico - Até 15 caracteres Formato xxx.xxx.xxx.xxx
     attr_accessor :ip
 
     # Campo Livre 1
@@ -155,12 +155,11 @@ module SuperpayApi
 
     # Função para realizar o pagamento de transações
     def enviar_pagamento
-       return false if self.invalid?
       resposta = web_service.pagamento_transacao_completa self
       resposta
     end
 
-    # Montar o Hash da transação
+    # Montar o Hash da transação no padrão utilizado pelo SuperPay
     def to_request
       transacao = {
         numero_transacao:               self.numero_transacao,
@@ -198,6 +197,7 @@ module SuperpayApi
 
     private
 
+      # Acesso ao web_service
       def web_service
         @web_service ||= SuperpayApi::WebService.new
       end

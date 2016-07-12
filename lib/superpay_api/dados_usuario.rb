@@ -2,13 +2,6 @@
 module SuperpayApi
   class DadosUsuario
 
-    MAPPING = {
-      :masculino                      => "Masculino",
-      :feminino                       => "Feminino",
-      :pessoa_fisica                  => "Pessoa Física",
-      :pessoa_juridica                => "Pessoa Jurídica",
-    }
-
     # Opções de Sexo
     SEXO = {
       :masculino  => "M",
@@ -21,14 +14,12 @@ module SuperpayApi
       :pessoa_juridica  => 2,
     }
 
-    # Importante ressaltar que todos os campos deste objeto são obrigatórios em caso de utilização de análise de fraude/risco.
-
     # Código que identifica o cliente no estabelecimento.
     # Alfa Numérico - Até 20 caracteres
     attr_accessor :codigo_cliente
 
     # Identifica se o cliente é pessoa física ou jurídica. Ver tabela “Tipo Cliente”
-    # Numérico - 1 dígito
+    # Simbolo - Valores pré-definidos [:pessoa_fisica, :pessoa_juridica]
     attr_accessor :tipo_cliente
 
     # Nome do comprador
@@ -48,7 +39,7 @@ module SuperpayApi
     attr_accessor :documento_2
 
     # M – Masculino / F – Feminino
-    # Alfa Numérico - 1 caractere
+    # Simbolo - Valores pré-definidos [:masculino, :feminino]
     attr_accessor :sexo
 
     # Data de nascimento do comprador. Formato dd/mm/yyyy
@@ -66,7 +57,7 @@ module SuperpayApi
     # Validações do Rails 3
     include ActiveModel::Validations
 
-    # Retornar array com os possíveis idiomas
+    # Retornar array com os possíveis sexos
     def self.sexos_validos
       SEXO.map{ |key, value| key }
     end
@@ -114,17 +105,17 @@ module SuperpayApi
       end
     end
 
-    # Retornar o número do tipo de telefone
+    # Retornar o número do tipo de telefone no padrão utilizado pelo SuperPay
     def sexo_to_request
       SEXO[self.sexo]
     end
 
-    # Retornar o número do tipo de telefone
+    # Retornar o número do tipo de telefone no padrão utilizado pelo SuperPay
     def tipos_de_cliente_to_request
       TIPOS_DE_CLIENTE[self.tipo_cliente]
     end
 
-    # Montar o Hash de dados do usuario
+    # Montar o Hash de dados do usuario no padrão utilizado pelo SuperPay
     def to_request
       dados_usuario = {
         codigo_cliente:             self.codigo_cliente,

@@ -4,8 +4,11 @@ require 'savon'
 module SuperpayApi
   class WebService
 
+    # Atributo para o cliente SOAP
     attr_reader :savon_client
 
+    # Nova instancia da classe WebService
+    # Será considerado o ambiente informado nas configurações
     def initialize
       @savon_client = Savon.client(
         wsdl: ::SuperpayApi.url,
@@ -19,6 +22,7 @@ module SuperpayApi
       )
     end
 
+    # Função que faz a requisição para consulta_transacao_completa
     def consulta_transacao_completa(numero_transacao)
       # Monta os parâmetros
       params = helper.build_request_consulta_transacao_completa(numero_transacao)
@@ -38,6 +42,7 @@ module SuperpayApi
       end
     end
 
+    # Função que faz a requisição para pagamento_transacao_completa
     def pagamento_transacao_completa(transacao)
       # Monta os parâmetros
       params = helper.build_request_pagamento_transacao_completa(transacao)
@@ -60,6 +65,7 @@ module SuperpayApi
 
     private
 
+      # Acesso ao helper
       def helper
         @helper ||= SuperpayApi::Helper.new
       end

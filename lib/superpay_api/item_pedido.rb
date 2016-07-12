@@ -2,8 +2,6 @@
 module SuperpayApi
   class ItemPedido
 
-    # Importante ressaltar que todos os campos deste objeto são obrigatórios em caso de utilização de análise de fraude/risco.
-
     # Código único que identifica cada produto.
     # Alfa Numérico - Até 20 caracteres
     attr_accessor :codigo_produto
@@ -49,7 +47,7 @@ module SuperpayApi
       end
     end
 
-    # Montar o Hash de dados do ItemPedido
+    # Montar o Hash de dados do ItemPedido no padrão utilizado pelo SuperPay
     def to_request
       item_pedido = {
         codigo_produto:           self.codigo_produto,

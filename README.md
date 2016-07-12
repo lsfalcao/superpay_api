@@ -93,7 +93,11 @@ A classe `SuperpayApi::Transacao` é montada com outras classes \(`SuperpayApi::
 
 O retorno será um objeto da classe `SuperpayApi::Retorno` \(Verifique o objeto mais abaixo\).
 
-### Montar Transação
+Importante realizar a validação do objeto antes de enviar o pagamento, para isso verifique a [documentação](www.rubydoc.info/github/qw3/superpay_api/).
+
+### Importante ressaltar que todos os campos deste objeto são obrigatórios em caso de utilização de análise de fraude/risco.
+
+### Montar [Transação](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Transacao)
 
 ```ruby
 transacao = SuperpayApi::Transacao.new ({
@@ -124,7 +128,7 @@ transacao = SuperpayApi::Transacao.new ({
 retorno = transacao.enviar_pagamento if transacao.valid?
 ```
 
-### Montar Itens do Pedido
+### Montar [Itens do Pedido](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/ItemPedido)
 
 ```ruby
 item_pedido_1 = SuperpayApi::ItemPedido.new ({
@@ -146,7 +150,7 @@ item_pedido_2 = SuperpayApi::ItemPedido.new ({
 })
 ```
 
-### Montar Dados do Usuário
+### Montar [Dados do Usuário](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/DadosUsuario)
 
 ```ruby
 dados_usuario = SuperpayApi::DadosUsuario.new ({
@@ -167,7 +171,7 @@ dados_usuario = SuperpayApi::DadosUsuario.new ({
 })
 ```
 
-### Montar Endereço
+### Montar [Endereço](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Endereco)
 
 ```ruby
 endereco = SuperpayApi::Endereco.new ({
@@ -181,7 +185,7 @@ endereco = SuperpayApi::Endereco.new ({
 })
 ```
 
-### Montar Telefone
+### Montar [Telefone](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Telefone)
 
 ```ruby
 telefone = SuperpayApi::Telefone.new ({
@@ -194,13 +198,15 @@ telefone = SuperpayApi::Telefone.new ({
 
 ## Consultar transação
 
+O SuperPay disponibiliza um método para consulta de pedidos. Através dele é possível verificar a situação atual de uma transação, verificando, por exemplo, o status em que o pedido se encontra.
+
 Para consultar uma transação basta chamar função `SuperpayApi::Transacao.consulta_transacao(numero_transacao)`, será retorno um objeto do tipo `SuperpayApi::Retorno`.
 
 ```ruby
 retorno = SuperpayApi::Transacao.consulta_transacao(numero_transacao)
 ```
 
-## Exemplo de Retorno
+## Exemplo de [Retorno](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Retorno)
 
 ```ruby
 retorno = {

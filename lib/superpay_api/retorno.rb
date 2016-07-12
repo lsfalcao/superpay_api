@@ -2,37 +2,16 @@
 module SuperpayApi
   class Retorno
 
-    MAPPING = {
-      :numero_transacao             => "numeroTransacao",
-      :codigo_estabelecimento       => "codigoEstabelecimento",
-      :codigo_forma_pagamento       => "codigoFormaPagamento",
-      :valor                        => "valor",
-      :valor_desconto               => "valorDesconto",
-      :taxa_embarque                => "taxaEmbarque",
-      :parcelas                     => "parcelas",
-      :url_pagamento                => "urlPagamento",
-      :status_transacao             => "statusTransacao",
-      :autorizacao                  => "autorizacao",
-      :codigo_transacao_operadora   => "codigoTransacaoOperadora",
-      :data_aprovacao_operadora     => "dataAprovacaoOperadora",
-      :numero_comprovante_venda     => "numeroComprovanteVenda",
-      :mensagem_venda               => "mensagemVenda",
-    }
-
-    # Após o envio da requisição, o SuperPay retornará um objeto de resposta, chamado ResultadoPagamentosWS,
-    # como dado de saída. Tal objeto possui todas as informações necessárias para validar o resultado da transação e assim,
-    # liberar ou não o pedido para o cliente final.
-
     # Código que identifica a transação dentro do SuperPay
     # Numérico - Até 8 dígitos
     attr_accessor :numero_transacao
 
     # Código que identifica o estabelecimento dentro do SuperPay (fornecido pelo gateway)
-    # Numérico - Enviado pelo SuperPay
+    # Enviado pelo SuperPay
     attr_accessor :codigo_estabelecimento
 
     # Código da forma de pagamento. Ver tabela “Forma de Pagamento”
-    # Numérico - Valores pré-definidos
+    # Simbolo - Valores pré-definidos - Verifique classe SuperpayApi::FormaDePagamento
     attr_accessor :codigo_forma_pagamento
 
     # Valor da transação
@@ -59,7 +38,7 @@ module SuperpayApi
     attr_accessor :url_pagamento
 
     # Código que mostra o status atual da transação. Verificar tabela “Status”
-    # Numérico - Até 2 dígitos
+    # Simbolo - Valores pré-definidos - Verifique classe SuperpayApi::Status
     attr_accessor :status_transacao
 
     # Código de autorização da operadora/banco/intermediário financeiro
@@ -82,13 +61,12 @@ module SuperpayApi
     # Alfa Numérico - Até 50 caracteres
     attr_accessor :mensagem_venda
 
-    # Return the order status.
-    # Will be mapped to the STATUS constant.
+    # Retorna o status conforme classe SuperpayApi::Status
     def status
       @status ||= SuperpayApi::Status::STATUS[self.status_transacao.to_i]
     end
 
-    # Nova instancia da classe Telefone
+    # Nova instancia da classe Retorno
     # @param [Hash] campos
     def initialize(campos = {})
       campos.each do |campo, valor|

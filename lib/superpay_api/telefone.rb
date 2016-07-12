@@ -2,15 +2,6 @@
 module SuperpayApi
   class Telefone
 
-    MAPPING = {
-      :outros       => "Outros",
-      :residencial  => "Residencial",
-      :comercial    => "Comercial",
-      :recados      => "Recados",
-      :cobranca     => "Cobrança",
-      :temporario   => "Temporário",
-    }
-
     # Opções de Tipo de Telefone
     TIPOS_DE_TELEFONE = {
       :outros        => 1,
@@ -22,7 +13,7 @@ module SuperpayApi
     }
 
     # Ver tabela “Tipos de Telefone”
-    # Numérico - 1 dígito
+    # Simbolo - Valores pré-definidos [:outros, :residencial, :comercial, :recados, :cobranca, :temporario]
     attr_accessor :codigo_tipo_telefone
 
     # Telefone sem espaços ou traços
@@ -65,7 +56,8 @@ module SuperpayApi
       TIPOS_DE_TELEFONE[self.codigo_tipo_telefone]
     end
 
-    # Montar o Hash de tefone conforme o tipo dele
+    # Montar o Hash de tefone conforme o tipo dele no padrão utilizado pelo SuperPay
+    # tipo: [:comprador, :adicional_comprador, :entrega, :adicional_entrega]
     def to_request tipo
       telefone = {}
       case tipo.to_sym

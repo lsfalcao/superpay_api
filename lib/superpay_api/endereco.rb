@@ -49,7 +49,8 @@ module SuperpayApi
       end
     end
 
-    # Montar o Hash de Endereco conforme o tipo dele
+    # Montar o Hash de Endereco conforme o tipo dele no padrão utilizado pelo SuperPay
+    # tipo: [:endereco_comprador, :endereco_entrega]
     def to_request tipo
       endereco = {}
       case tipo.to_sym
