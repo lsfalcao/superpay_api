@@ -229,7 +229,7 @@ retorno = {
 
 ## Documentação
 
-[RubyDoc.info]http://www.rubydoc.info/github/qw3/superpay_api
+[RubyDoc.info](http://www.rubydoc.info/github/qw3/superpay_api)
 
 ## Autor
 - [QW3 Software & Marketing](http://qw3.com.br)
