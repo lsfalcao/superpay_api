@@ -10,7 +10,7 @@ A biblioteca SuperPayAPI em Ruby é um conjunto de classes de domínio que facil
  - [Consultar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Consultar_transa%C3%A7%C3%A3o_SOAP)
  - [Capturar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Capturar_transa%C3%A7%C3%A3o_SOAP)
  - [Cancelar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP)
- - [Estorno de transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Estorno_de_transa%C3%A7%C3%A3o_SOAP) \(Em desenvolvimento\)
+ - [Estorno de transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Estorno_de_transa%C3%A7%C3%A3o_SOAP)
  - [Campainha](http://wiki.superpay.com.br/wikiSuperPay/index.php/Campainha) \(Em desenvolvimento\)
  - [Múltiplos Cartões](http://wiki.superpay.com.br/wikiSuperPay/index.php/M%C3%BAltiplos_Cart%C3%B5es) \(Em desenvolvimento\)
  - [One Click](http://wiki.superpay.com.br/wikiSuperPay/index.php/One_Click) \(Em desenvolvimento\)
@@ -200,7 +200,7 @@ telefone = SuperpayApi::Telefone.new ({
 
 O SuperPay disponibiliza um método para consulta de pedidos. Através dele é possível verificar a situação atual de uma transação, verificando, por exemplo, o status em que o pedido se encontra.
 
-Para consultar uma transação basta chamar função `SuperpayApi::Transacao.consulta_transacao(numero_transacao)`, será retornado um objeto do tipo `SuperpayApi::Retorno`.
+Para consultar uma transação basta chamar função `SuperpayApi::Transacao.consulta_transacao(numero_transacao)`, será retornado um objeto do tipo `SuperpayApi::Retorno`. \(Verifique o objeto mais abaixo\). Tal objeto possui todas as informações necessárias para validar o resultado da transação.
 
 ```ruby
 retorno = SuperpayApi::Transacao.consulta_transacao(numero_transacao)
@@ -234,6 +234,23 @@ Para cancelar uma transação basta chamar função `SuperpayApi::Transacao.canc
 
 ```ruby
 retorno = SuperpayApi::Transacao.cancelar_transacao(numero_transacao)
+```
+
+## Estorno de transação
+
+Funcionalidade para estornar o valor do pedido, tanto **parcial** quanto **total**, para o cliente.
+
+_**Item disponível somente para clientes pós-pago e que utilizam operadora Cielo. Para maiores detalhes entrar em contato com o Comercial \(comercial@superpay.com.br\).**_
+
+Para estornar uma transação basta chamar função `SuperpayApi::Transacao.estorno_de_transacao(numero_transacao, valor_estorno)`, será retornado uma mensagem informando o cadastro do estorno.
+
+Para saber se o estorno foi ou não realizado pela operadora, deve-se realizar **Consultar transação** específica ao pedido.
+
+**Tempo de resposta de até 30 minutos.**
+
+```ruby
+# Sempre enviar o valor sem vírgula ou ponto, os dois últimos dígitos são sempre considerados como centavos
+retorno = SuperpayApi::Transacao.estorno_de_transacao(numero_transacao, valor_estorno)
 ```
 
 ## Exemplo de [Retorno](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Retorno)

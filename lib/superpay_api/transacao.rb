@@ -143,11 +143,13 @@ module SuperpayApi
     end
 
     # Função para consultar transações
+    # numero_transacao => :integer
     def consulta_transacao numero_transacao
       web_service.consulta_transacao_completa numero_transacao
     end
 
     # Função para consultar transações
+    # numero_transacao => :integer
     def self.consulta_transacao numero_transacao
       self.new.consulta_transacao numero_transacao
     end
@@ -158,23 +160,43 @@ module SuperpayApi
     end
 
     # Função para Cancelar transação
+    # numero_transacao => :integer
     def cancelar_transacao numero_transacao
       web_service.cancelar_transacao numero_transacao
     end
 
     # Função para Cancelar transação
+    # numero_transacao => :integer
     def self.cancelar_transacao numero_transacao
       self.new.cancelar_transacao numero_transacao
     end
 
     # Função para Capturar transação
+    # numero_transacao => :integer
     def capturar_transacao numero_transacao
       web_service.capturar_transacao numero_transacao
     end
 
     # Função para Capturar transação
+    # numero_transacao => :integer
     def self.capturar_transacao numero_transacao
       self.new.capturar_transacao numero_transacao
+    end
+
+    # Função para Estorno de transação
+    # numero_transacao => :integer
+    # valor_estorno => :integer
+    # Sempre enviar o valor sem vírgula ou ponto, os dois últimos dígitos são sempre considerados como centavos
+    def estorno_de_transacao numero_transacao, valor_estorno
+      web_service.estorno_de_transacao numero_transacao, valor_estorno
+    end
+
+    # Função para Estorno de transação
+    # numero_transacao => :integer
+    # valor_estorno => :integer
+    # Sempre enviar o valor sem vírgula ou ponto, os dois últimos dígitos são sempre considerados como centavos
+    def self.estorno_de_transacao numero_transacao, valor_estorno
+      self.new.estorno_de_transacao numero_transacao, valor_estorno
     end
 
     # Montar o Hash da transação no padrão utilizado pelo SuperPay

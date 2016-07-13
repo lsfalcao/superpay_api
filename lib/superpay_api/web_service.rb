@@ -20,6 +20,17 @@ module SuperpayApi
           "xmlns:pag" => "http://pagamentos.webservices.superpay.ernet.com.br/",
         }
       )
+
+      @savon_client_estorno = Savon.client(
+        wsdl: ::SuperpayApi.url_estorno,
+        env_namespace: :soapenv,
+        convert_request_keys_to: :lower_camelcase,
+        namespace_identifier: :est,
+        namespaces: {
+          "xmlns:soapenv" => "http://schemas.xmlsoap.org/soap/envelope/",
+          "xmlns:est" => "http://estorno.webservices.superpay.ernet.com.br/",
+        }
+      )
     end
 
     # Função que faz a requisição para consulta_transacao_completa
@@ -107,6 +118,26 @@ module SuperpayApi
         return retorno
       else
         return helper.build_response_retorno(retorno)
+      end
+    end
+
+    # Função que faz a requisição para Estorno de transação
+    def estorno_de_transacao(numero_transacao, valor_estorno)
+      # Monta os parâmetros
+      params = helper.build_request_estorno_de_transacao(numero_transacao, valor_estorno)
+
+      # Faz a requisição para o wsdl
+      begin
+        retorno = @savon_client_estorno.call(:estorna_transacao, message: params)
+      rescue Savon::SOAPFault => error
+        return helper.build_response_error_estorno(error)
+      end
+
+      # Verifica se a retorno veio correta ou se deu problema
+      if retorno.blank?
+        return "Resposta vazia"
+      else
+        return helper.build_response_retorno_estorno(retorno)
       end
     end
 
