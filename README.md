@@ -91,7 +91,7 @@ Para iniciar uma requisição de pagamento, você precisa instanciar a classe `S
 
 A classe `SuperpayApi::Transacao` é montada com outras classes \(`SuperpayApi::DadosUsuario`, `SuperpayApi::Endereco`, `SuperpayApi::Telefone`, `SuperpayApi::ItemPedido`\) com suas devidas validações.
 
-O retorno será um objeto da classe `SuperpayApi::Retorno` \(Verifique o objeto mais abaixo\).
+O retorno será um objeto da classe `SuperpayApi::Retorno` \(Verifique o objeto mais abaixo\). Tal objeto possui todas as informações necessárias para validar o resultado da transação.
 
 Importante realizar a validação do objeto antes de enviar o pagamento, para isso verifique a [documentação](http://www.rubydoc.info/github/qw3/superpay_api/).
 
@@ -200,7 +200,7 @@ telefone = SuperpayApi::Telefone.new ({
 
 O SuperPay disponibiliza um método para consulta de pedidos. Através dele é possível verificar a situação atual de uma transação, verificando, por exemplo, o status em que o pedido se encontra.
 
-Para consultar uma transação basta chamar função `SuperpayApi::Transacao.consulta_transacao(numero_transacao)`, será retorno um objeto do tipo `SuperpayApi::Retorno`.
+Para consultar uma transação basta chamar função `SuperpayApi::Transacao.consulta_transacao(numero_transacao)`, será retornado um objeto do tipo `SuperpayApi::Retorno`.
 
 ```ruby
 retorno = SuperpayApi::Transacao.consulta_transacao(numero_transacao)
@@ -220,6 +220,8 @@ A confirmação da transação. Nesta etapa o SuperPay aciona a operadora financ
 
 O SuperPay oferece tanto o sistema de captura automática quanto o de captura manual, onde o próprio estabelecimento decide o momento de realizar a etapa e também é o responsável por acionar o processo.
 
+Para capturar uma transação basta chamar função `SuperpayApi::Transacao.capturar_transacao(numero_transacao)`, será retornado um objeto do tipo `SuperpayApi::Retorno`. \(Verifique o objeto mais abaixo\). Tal objeto possui todas as informações necessárias para validar o resultado da transação.
+
 ```ruby
 retorno = SuperpayApi::Transacao.capturar_transacao(numero_transacao)
 ```
@@ -227,6 +229,8 @@ retorno = SuperpayApi::Transacao.capturar_transacao(numero_transacao)
 ## Cancelar transação
 
 Outra funcionalidade disponível no SuperPay é o cancelamento de transações de acordo com a disponibilidade do serviço nas operadoras e instituições financeiras disponível nesse [link](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP#Observa.C3.A7.C3.B5es_sobre_o_Cancelamento_da_Transa.C3.A7.C3.A3o).
+
+Para cancelar uma transação basta chamar função `SuperpayApi::Transacao.cancelar_transacao(numero_transacao)`, será retornado um objeto do tipo `SuperpayApi::Retorno`. \(Verifique o objeto mais abaixo\). Tal objeto possui todas as informações necessárias para validar o resultado da transação.
 
 ```ruby
 retorno = SuperpayApi::Transacao.cancelar_transacao(numero_transacao)
@@ -269,11 +273,12 @@ retorno.errors.full_messages
 
 ## Documentação
 
-[RubyDoc](http://www.rubydoc.info/github/qw3/superpay_api)
-[RubyGems](https://rubygems.org/gems/superpay_api)
-[GitHub](https://github.com/qw3/superpay_api)
+- [RubyDoc](http://www.rubydoc.info/github/qw3/superpay_api)
+- [RubyGems](https://rubygems.org/gems/superpay_api)
+- [GitHub](https://github.com/qw3/superpay_api)
 
 ## Autor
+
 - [QW3 Software & Marketing](http://qw3.com.br)
 - [Leandro dos Santos Falcão](https://www.linkedin.com/in/lsfalcao)
 
