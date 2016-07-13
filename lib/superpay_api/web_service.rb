@@ -66,6 +66,50 @@ module SuperpayApi
       end
     end
 
+    # Função que faz a requisição para cancelar_transacao
+    def cancelar_transacao(numero_transacao)
+      # Monta os parâmetros
+      params = helper.build_request_cancelar_transacao(numero_transacao)
+
+      # Faz a requisição para o wsdl
+      begin
+        retorno = @savon_client.call(:operacao_transacao, message: params)
+      rescue Savon::SOAPFault => error
+        return helper.build_response_error(error)
+      end
+
+      # Verifica se a retorno veio correta ou se deu problema
+      if retorno.blank?
+        retorno = SuperpayApi::Retorno.new
+        retorno.errors.add(:mensagem, "Resposta vazia")
+        return retorno
+      else
+        return helper.build_response_retorno(retorno)
+      end
+    end
+
+    # Função que faz a requisição para capturar_transacao
+    def capturar_transacao(numero_transacao)
+      # Monta os parâmetros
+      params = helper.build_request_capturar_transacao(numero_transacao)
+
+      # Faz a requisição para o wsdl
+      begin
+        retorno = @savon_client.call(:operacao_transacao, message: params)
+      rescue Savon::SOAPFault => error
+        return helper.build_response_error(error)
+      end
+
+      # Verifica se a retorno veio correta ou se deu problema
+      if retorno.blank?
+        retorno = SuperpayApi::Retorno.new
+        retorno.errors.add(:mensagem, "Resposta vazia")
+        return retorno
+      else
+        return helper.build_response_retorno(retorno)
+      end
+    end
+
     private
 
       # Acesso ao helper

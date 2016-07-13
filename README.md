@@ -8,8 +8,8 @@ A biblioteca SuperPayAPI em Ruby é um conjunto de classes de domínio que facil
 
  - [Criar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Criar_transa%C3%A7%C3%A3o_SOAP)
  - [Consultar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Consultar_transa%C3%A7%C3%A3o_SOAP)
- - [Capturar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Capturar_transa%C3%A7%C3%A3o_SOAP) \(Em desenvolvimento\)
- - [Cancelar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP) \(Em desenvolvimento\)
+ - [Capturar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Capturar_transa%C3%A7%C3%A3o_SOAP)
+ - [Cancelar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP)
  - [Estorno de transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Estorno_de_transa%C3%A7%C3%A3o_SOAP) \(Em desenvolvimento\)
  - [Campainha](http://wiki.superpay.com.br/wikiSuperPay/index.php/Campainha) \(Em desenvolvimento\)
  - [Múltiplos Cartões](http://wiki.superpay.com.br/wikiSuperPay/index.php/M%C3%BAltiplos_Cart%C3%B5es) \(Em desenvolvimento\)
@@ -204,6 +204,32 @@ Para consultar uma transação basta chamar função `SuperpayApi::Transacao.con
 
 ```ruby
 retorno = SuperpayApi::Transacao.consulta_transacao(numero_transacao)
+```
+
+## Capturar transação
+
+Em algumas operadoras e instituições financeiras, é possível realizar a aprovação de uma transação em duas etapas, chamadas **autorização** e **captura**.
+
+### Autorização
+
+A etapa inicial do processo, onde a operadora financeira é acionada pelo SuperPay. Essa etapa verifica a condição de crédito do cliente, ou seja, verifica se o mesmo possui crédito suficiente para realizar a compra. Em casos positivos, aquele valor é reservado na conta do cliente para que o processo de captura ocorra.
+
+### Captura
+
+A confirmação da transação. Nesta etapa o SuperPay aciona a operadora financeira para confirmar uma transação previamente autorizada. Somente nessa etapa é que é realizada a cobrança do cliente.
+
+O SuperPay oferece tanto o sistema de captura automática quanto o de captura manual, onde o próprio estabelecimento decide o momento de realizar a etapa e também é o responsável por acionar o processo.
+
+```ruby
+retorno = SuperpayApi::Transacao.capturar_transacao(numero_transacao)
+```
+
+## Cancelar transação
+
+Outra funcionalidade disponível no SuperPay é o cancelamento de transações de acordo com a disponibilidade do serviço nas operadoras e instituições financeiras disponível nesse [link](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP#Observa.C3.A7.C3.B5es_sobre_o_Cancelamento_da_Transa.C3.A7.C3.A3o).
+
+```ruby
+retorno = SuperpayApi::Transacao.cancelar_transacao(numero_transacao)
 ```
 
 ## Exemplo de [Retorno](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Retorno)

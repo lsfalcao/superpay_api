@@ -144,8 +144,7 @@ module SuperpayApi
 
     # Função para consultar transações
     def consulta_transacao numero_transacao
-      resposta = web_service.consulta_transacao_completa numero_transacao
-      resposta
+      web_service.consulta_transacao_completa numero_transacao
     end
 
     # Função para consultar transações
@@ -155,8 +154,27 @@ module SuperpayApi
 
     # Função para realizar o pagamento de transações
     def enviar_pagamento
-      resposta = web_service.pagamento_transacao_completa self
-      resposta
+      web_service.pagamento_transacao_completa self
+    end
+
+    # Função para Cancelar transação
+    def cancelar_transacao numero_transacao
+      web_service.cancelar_transacao numero_transacao
+    end
+
+    # Função para Cancelar transação
+    def self.cancelar_transacao numero_transacao
+      self.new.cancelar_transacao numero_transacao
+    end
+
+    # Função para Capturar transação
+    def capturar_transacao numero_transacao
+      web_service.capturar_transacao numero_transacao
+    end
+
+    # Função para Capturar transação
+    def self.capturar_transacao numero_transacao
+      self.new.capturar_transacao numero_transacao
     end
 
     # Montar o Hash da transação no padrão utilizado pelo SuperPay

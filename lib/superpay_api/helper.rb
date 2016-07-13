@@ -24,6 +24,34 @@ module SuperpayApi
       params.merge! SuperpayApi.login
     end
 
+    # Montar o Hash com a requisição para Cancelar Transação
+    def build_request_cancelar_transacao numero_transacao
+      # Montar os parâmetros para consulta
+      params = {
+        operacao: {
+          codigo_estabelecimento: SuperpayApi.estabelecimento,
+          numero_transacao: numero_transacao,
+          operacao: 2,
+        }
+      }
+      # Adiciona as configurações de login
+      params.merge! SuperpayApi.login
+    end
+
+    # Montar o Hash com a requisição para Capturar Transação
+    def build_request_capturar_transacao numero_transacao
+      # Montar os parâmetros para consulta
+      params = {
+        operacao: {
+          codigo_estabelecimento: SuperpayApi.estabelecimento,
+          numero_transacao: numero_transacao,
+          operacao: 1,
+        }
+      }
+      # Adiciona as configurações de login
+      params.merge! SuperpayApi.login
+    end
+
     # Montar o Hash com a resposta quando ocorre erro
     # [ResultadoPagamentosWS, ResultadoConsultaTransacaoWS]
     def build_response_retorno(resposta = {})
