@@ -2,6 +2,9 @@
 module SuperpayApi
   class Retorno
 
+    # Validações do Rails 3
+    include ActiveModel::Validations
+
     # Código que identifica a transação dentro do SuperPay
     # Numérico - Até 8 dígitos
     attr_accessor :numero_transacao

@@ -36,7 +36,9 @@ module SuperpayApi
 
       # Verifica se a retorno veio correta ou se deu problema
       if retorno.blank?
-        return {error: true}
+        retorno = SuperpayApi::Retorno.new
+        retorno.errors.add(:mensagem, "Resposta vazia")
+        return retorno
       else
         return helper.build_response_retorno(retorno)
       end
@@ -52,12 +54,13 @@ module SuperpayApi
         retorno = @savon_client.call(:pagamento_transacao_completa, message: params)
       rescue Savon::SOAPFault => error
         return helper.build_response_error(error)
-        # return helper.build_response_error({error: error.to_hash[:fault][:faultstring]})
       end
 
       # Verifica se a retorno veio correta ou se deu problema
       if retorno.blank?
-        return {error: true}
+        retorno = SuperpayApi::Retorno.new
+        retorno.errors.add(:mensagem, "Resposta vazia")
+        return retorno
       else
         return helper.build_response_retorno(retorno)
       end

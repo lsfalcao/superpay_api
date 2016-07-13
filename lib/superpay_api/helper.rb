@@ -33,13 +33,19 @@ module SuperpayApi
       elsif !response[:pagamento_transacao_completa_response].blank?
         return SuperpayApi::Retorno.new(response[:pagamento_transacao_completa_response][:return])
       else
-        return resposta
+        retorno = SuperpayApi::Retorno.new
+        retorno.errors.add(:mensagem, "Resposta sem tratamento")
+        return retorno
       end
     end
 
     # Montar o Hash com a resposta quando ocorre erro
+    # O erro será registrado no objeto errors
     def build_response_error(resposta = {})
-      return resposta
+      retorno = SuperpayApi::Retorno.new
+      retorno.errors.add(:code, resposta.to_hash[:fault][:faultcode]) unless resposta.to_hash[:fault][:faultcode].blank?
+      retorno.errors.add(:mensagem, resposta.to_hash[:fault][:faultstring]) unless resposta.to_hash[:fault][:faultstring].blank?
+      return retorno
     end
 
   end
