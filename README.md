@@ -2,7 +2,7 @@
 
 ## Versão Beta
 
-Gem para utilização do SuperPay API disponibilizado pela empresa [SuperPay](http://superpay.locaweb.com.br/) para integrar sua plataforma de forma segura e eficaz com as principais formas de pagamento disponíveis no mercado.
+Gem para utilização do Gateway de pagamento [SuperPay API](http://superpay.locaweb.com.br/).
 
 A biblioteca SuperPayAPI em Ruby é um conjunto de classes de domínio que facilitam, para o desenvolvedor Ruby, a utilização das funcionalidades que o SuperPay oferece na forma de [APIs](http://wiki.superpay.com.br/wikiSuperPay/index.php/P%C3%A1gina_principal). Com a biblioteca instalada e configurada, você pode facilmente integrar funcionalidades como:
 
