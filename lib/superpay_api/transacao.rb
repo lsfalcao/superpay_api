@@ -199,6 +199,18 @@ module SuperpayApi
       self.new.estorno_de_transacao numero_transacao, valor_estorno
     end
 
+    # Função para Localizar transação pela campainha
+    # notificacao => Hash
+    def localizar_pela_campainha notificacao = {}
+      consulta_transacao notificacao[:numero_transacao]
+    end
+
+    # Função para Localizar transação pela campainha
+    # notificacao => Hash
+    def self.localizar_pela_campainha notificacao = {}
+      self.new.localizar_pela_campainha notificacao
+    end
+
     # Montar o Hash da transação no padrão utilizado pelo SuperPay
     def to_request
       transacao = {

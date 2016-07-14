@@ -11,7 +11,7 @@ A biblioteca SuperPayAPI em Ruby é um conjunto de classes de domínio que facil
  - [Capturar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Capturar_transa%C3%A7%C3%A3o_SOAP)
  - [Cancelar transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cancelar_transa%C3%A7%C3%A3o_SOAP)
  - [Estorno de transação](http://wiki.superpay.com.br/wikiSuperPay/index.php/Estorno_de_transa%C3%A7%C3%A3o_SOAP)
- - [Campainha](http://wiki.superpay.com.br/wikiSuperPay/index.php/Campainha) \(Em desenvolvimento\)
+ - [Campainha](http://wiki.superpay.com.br/wikiSuperPay/index.php/Campainha)
  - [Múltiplos Cartões](http://wiki.superpay.com.br/wikiSuperPay/index.php/M%C3%BAltiplos_Cart%C3%B5es) \(Em desenvolvimento\)
  - [One Click](http://wiki.superpay.com.br/wikiSuperPay/index.php/One_Click) \(Em desenvolvimento\)
  - [Cobrança Recorrente](http://wiki.superpay.com.br/wikiSuperPay/index.php/Cobran%C3%A7a_Recorrente) \(Em desenvolvimento\)
@@ -214,6 +214,8 @@ Em algumas operadoras e instituições financeiras, é possível realizar a apro
 
 A etapa inicial do processo, onde a operadora financeira é acionada pelo SuperPay. Essa etapa verifica a condição de crédito do cliente, ou seja, verifica se o mesmo possui crédito suficiente para realizar a compra. Em casos positivos, aquele valor é reservado na conta do cliente para que o processo de captura ocorra.
 
+É preciso configurar o meio de pagamento como captura manual na conta SuperPay, assim quando enviar a transação pelo método **Criar transação** `transacao.enviar_pagamento` o pedido será apenas autorizado, nesse caso o próprio estabelecimento decide o momento de realizar a **Captura**.
+
 ### Captura
 
 A confirmação da transação. Nesta etapa o SuperPay aciona a operadora financeira para confirmar uma transação previamente autorizada. Somente nessa etapa é que é realizada a cobrança do cliente.
@@ -251,6 +253,17 @@ Para saber se o estorno foi ou não realizado pela operadora, deve-se realizar *
 ```ruby
 # Sempre enviar o valor sem vírgula ou ponto, os dois últimos dígitos são sempre considerados como centavos
 retorno = SuperpayApi::Transacao.estorno_de_transacao(numero_transacao, valor_estorno)
+```
+
+## Campainha
+
+O sistema de campainha existe para notificar o estabelecimento sobre uma atualização de status na transação. Toda vez que ocorre qualquer alteração de status em uma transação, é feita uma chamada via POST ao campo `:url_campainha` (cadastrado nas configurações).
+
+Para localizar e consultar uma transação a partir da campainha basta chamar função `SuperpayApi::Transacao.localizar_pela_campainha(notificacao)`, será retornado um objeto do tipo `SuperpayApi::Retorno`. \(Verifique o objeto mais abaixo\). Tal objeto possui todas as informações necessárias para validar o resultado da transação.
+
+```ruby
+# notificacao => Hash com os parâmetros do POST
+retorno = SuperpayApi::Transacao.localizar_pela_campainha(notificacao)
 ```
 
 ## Exemplo de [Retorno](http://www.rubydoc.info/github/qw3/superpay_api/SuperpayApi/Retorno)
