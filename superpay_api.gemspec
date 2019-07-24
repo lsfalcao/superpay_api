@@ -6,11 +6,11 @@ Gem::Specification.new do |gem|
   gem.name                  = "superpay_api"
   gem.version               = SuperpayApi::Version::STRING
   gem.platform              = Gem::Platform::RUBY
-  gem.authors               = ["QW3 Software & Marketing"]
-  gem.email                 = ["contato@qw3.com.br"]
+  gem.authors               = ["Leandro Falcão"]
+  gem.email                 = ["le.sfalcao@gmail.com"]
   gem.summary               = "SuperPay API - Gateway de pagamento"
   gem.description           = "Gem para utilização do SuperPay API disponibilizado pela empresa SuperPay para integrar sua plataforma de forma segura e eficaz com as principais formas de pagamento disponíveis no mercado."
-  gem.homepage              = "https://github.com/qw3/superpay_api"
+  gem.homepage              = "https://github.com/lsfalcao/superpay_api"
   gem.license               = "MIT"
 
   gem.files                 = [
